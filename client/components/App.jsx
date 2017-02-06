@@ -1,7 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import SubscribeComponent from '../helpers/SubscriberComponent'
+
+import AppBar from 'material-ui/AppBar';
 import Tasks from './tasks/Tasks'
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 class App extends Component {
   componentWillMount() {
@@ -25,20 +33,12 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <nav className="pt-navbar">
-          <div className="pt-navbar-group pt-align-left">
-            <div className="pt-navbar-heading">Blueprint</div>
-          </div>
-          <div className="pt-navbar-group pt-align-right">
-            <button className="pt-button pt-minimal pt-icon-home">Home</button>
-            <button className="pt-button pt-minimal pt-icon-document">Files</button>
-            <span className="pt-navbar-divider"></span>
-            <button className="pt-button pt-minimal pt-icon-cog"></button>
-          </div>
-        </nav>
-
         <header>
-          <h1>Todo List</h1>
+          <AppBar
+            title="Iris"
+            style={{fontFamily: 'Syncopate, sans-serif'}}
+            iconClassNameRight="muidocs-icon-navigation-expand-more"
+          />
 
           <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
               <input
