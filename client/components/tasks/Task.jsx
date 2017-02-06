@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-import { Tasks } from '../../imports/api/tasks.js'
+import { Tasks } from '../../../imports/api/tasks.js'
 
 export default class Task extends Component {
   toggleChecked() {

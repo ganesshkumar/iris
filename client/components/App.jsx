@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
-import SubscribeComponent from '../helpers/SubscriberComponent';
-import { Tasks } from '../../imports/api/tasks.js'
-import Task from './Task.jsx'
+import SubscribeComponent from '../helpers/SubscriberComponent'
+import Tasks from './tasks/Tasks'
 
 class App extends Component {
   componentWillMount() {
@@ -24,15 +22,21 @@ class App extends Component {
     ReactDOM.findDOMNode(this.refs.textInput).value = ''
   }
 
-  renderTasks() {
-    return this.props.tasks.map((task) => (
-      <Task key={task._id} task={task} />
-    ));
-  }
-
   render() {
     return (
       <div className="container">
+        <nav className="pt-navbar">
+          <div className="pt-navbar-group pt-align-left">
+            <div className="pt-navbar-heading">Blueprint</div>
+          </div>
+          <div className="pt-navbar-group pt-align-right">
+            <button className="pt-button pt-minimal pt-icon-home">Home</button>
+            <button className="pt-button pt-minimal pt-icon-document">Files</button>
+            <span className="pt-navbar-divider"></span>
+            <button className="pt-button pt-minimal pt-icon-cog"></button>
+          </div>
+        </nav>
+
         <header>
           <h1>Todo List</h1>
 
@@ -45,28 +49,10 @@ class App extends Component {
           </form>
         </header>
 
-        <ul>
-          {this.renderTasks()}
-        </ul>
+        <Tasks />
       </div>
     );
   }
 }
 
-App.propTypes = {
-  tasks: PropTypes.array.isRequired,
-}
-
-const mapStateToProps = state => {
-  return {
-    tasks: Object.keys(state.tasks.items).map(id => state.tasks.items[id])
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)
-    (SubscribeComponent(App));
+export default SubscribeComponent(App)
