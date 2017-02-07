@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import { Meteor } from 'meteor/meteor'
 import SubscribeComponent from '../helpers/SubscriberComponent'
 
 import AppBar from 'material-ui/AppBar';
@@ -31,27 +32,28 @@ class App extends Component {
   }
 
   render() {
+    const showAppbar = this.props.location.pathname.includes('/auth') ? false : true
+
+
     return (
-      <div className="container">
-        <header>
+      <div style={styles.container}>
+        {showAppbar && <header>
           <AppBar
             title="Iris"
             style={{fontFamily: 'Syncopate, sans-serif'}}
             iconClassNameRight="muidocs-icon-navigation-expand-more"
           />
+      </header>}
 
-          <form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
-              <input
-                type="text"
-                ref="textInput"
-                placeholder="Type to add new tasks"
-              />
-          </form>
-        </header>
-
-        <Tasks />
+        {this.props.children}
       </div>
     );
+  }
+}
+
+const styles = {
+  container: {
+    height: '100%'
   }
 }
 

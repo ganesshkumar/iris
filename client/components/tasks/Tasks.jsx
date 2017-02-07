@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { List } from 'material-ui/List';
+import { List } from 'material-ui/List'
 import Task from './Task'
 
 var Tasks = (props) => {

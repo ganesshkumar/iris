@@ -2,8 +2,10 @@ import React from 'react'
 import { Meteor } from 'meteor/meteor'
 import { render } from 'react-dom'
 import App from './components/App.jsx'
+import Auth from './components/auth/Auth'
 import { Provider } from 'react-redux'
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
+import Tasks from './components/tasks/Tasks.jsx'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -17,8 +19,11 @@ Meteor.startup(() => {
     <Provider store={store}>
       <MuiThemeProvider
           muiTheme={getMuiTheme(Object.assign({}, lightBaseTheme, customTheme))} >
-        <Router history={browserHistory}>
-            <Route path="/" component={App} />
+        <Router history={hashHistory}>
+            <Route path="/" component={App}>
+              <IndexRoute component={Tasks}/>
+              <Route path="auth" component={Auth} />
+            </Route>
         </Router>
       </MuiThemeProvider>
     </Provider>
