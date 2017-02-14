@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
 import { Meteor } from 'meteor/meteor'
 import SubscribeComponent from '../helpers/SubscriberComponent'
 
-import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer'
+import Menu from 'material-ui/svg-icons/navigation/menu'
+import Dashboard from 'material-ui/svg-icons/action/dashboard'
+import List from 'material-ui/svg-icons/action/view-list'
+import IconButton from 'material-ui/IconButton'
+import MenuItem from 'material-ui/MenuItem'
+import AppBar from 'material-ui/AppBar'
 import Tasks from './tasks/Tasks'
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { setDrawerState } from '../actions/applicationActions'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -18,33 +27,41 @@ class App extends Component {
     this.props.subscribe('tasksOrder')
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim()
-
-    Tasks.insert({
-      text,
-      createdAt: new Date(),
-    });
-
-    // Clear form
-    ReactDOM.findDOMNode(this.refs.textInput).value = ''
-  }
-
   render() {
     const showAppbar = this.props.location.pathname.includes('/auth') ? false : true
-
+    const menu = (
+      <IconButton>
+        <Menu onClick={this.props.openDrawer}/>
+      </IconButton>
+    )
 
     return (
       <div style={styles.container}>
         {showAppbar && <header>
           <AppBar
             title="Iris"
-            style={{fontFamily: 'Syncopate, sans-serif'}}
-            iconClassNameRight="muidocs-icon-navigation-expand-more"
+            style={styles.title}
+            iconElementLeft={menu}
           />
-      </header>}
+
+          <Drawer open={this.props.isDrawerOpened} docked={false}
+                onRequestChange={ status => (status == false && this.props.closeDrawer())} >
+            <AppBar title="Iris" style={styles.title} showMenuIconButton={false} />
+
+            <MenuItem
+                leftIcon={<Dashboard />}
+                onTouchTap={(e) => this.props.redirectAndClose('#dashboard')}>
+              Dashboard
+            </MenuItem>
+
+            <MenuItem
+                leftIcon={<List />}
+                onTouchTap={(e) => this.props.redirectAndClose('#tasks')}>
+              Tasks
+            </MenuItem>
+          </Drawer>
+
+        </header>}
 
         {this.props.children}
       </div>
@@ -55,7 +72,27 @@ class App extends Component {
 const styles = {
   container: {
     height: '100%'
+  },
+  title: {
+    fontFamily: 'Syncopate, sans-serif'
   }
 }
 
-export default SubscribeComponent(App)
+const mapStateToProps = state => {
+  return {
+    isDrawerOpened: state.appProps.isDrawerOpened
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openDrawer: () => dispatch(setDrawerState(true)),
+    closeDrawer: () => dispatch(setDrawerState(false)),
+    redirectAndClose: (link) => {
+      window.location.href = link
+      dispatch(setDrawerState(false))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubscribeComponent(App))

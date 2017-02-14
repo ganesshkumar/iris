@@ -5,7 +5,8 @@ import App from './components/App.jsx'
 import Auth from './components/auth/Auth'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, hashHistory } from 'react-router'
-import Tasks from './components/tasks/Tasks.jsx'
+import Tasks from './components/tasks/Tasks'
+import Dashboard from './components/dashboard/Dashboard'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
@@ -22,6 +23,8 @@ Meteor.startup(() => {
         <Router history={hashHistory}>
             <Route path="/" component={App}>
               <IndexRoute component={Tasks}/>
+              <Route path="tasks" component={Tasks} />
+              <Route path="dashboard" component={Dashboard} />
               <Route path="auth" component={Auth} />
             </Route>
         </Router>
