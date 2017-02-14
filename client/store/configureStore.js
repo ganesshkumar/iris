@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import reducers from '../reducers/reducers'
 import { userChanged } from '../actions/authActions'
-import { Tasks } from '../../imports/api/tasks'
+import { Tasks, TaskOrder } from '../../imports/api/tasks'
 
 const loggerMiddleware = createLogger()
 
@@ -27,10 +27,12 @@ export default (preloadedState) => {
 
   Tracker.autorun(() => {
     const tasks = Tasks.find({}).fetch()
+    const tasksOrderRecord = TaskOrder.find({}).fetch()[0]
 
     store.dispatch({
       type: 'SYNC_TASKS',
       tasks: tasks,
+      tasksOrder: tasksOrderRecord && tasksOrderRecord['tasksOrder'] || [],
       lastSyncAt: new Date()
     });
   });

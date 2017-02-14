@@ -15,6 +15,7 @@ injectTapEventPlugin();
 class App extends Component {
   componentWillMount() {
     this.props.subscribe('tasks')
+    this.props.subscribe('tasksOrder')
   }
 
   handleSubmit(event) {

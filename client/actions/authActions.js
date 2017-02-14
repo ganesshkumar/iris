@@ -1,6 +1,6 @@
-import { throwError } from './errorActions'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
+import { throwError } from './errorActions'
 
 export function selectForm(authForm) {
   return {

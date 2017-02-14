@@ -1,5 +1,6 @@
 export default tasksReducer = (state = {
-  items: [],
+  items: {},
+  tasksOrder: [],
   lastSyncAt: null
 }, action) => {
   switch (action.type) {
@@ -9,6 +10,7 @@ export default tasksReducer = (state = {
           map[task._id] = task;
           return map;
         }, {}),
+        tasksOrder: action.tasksOrder,
         lastSyncAt: action.lastSyncAt
       })
     default:
