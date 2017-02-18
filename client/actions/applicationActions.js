@@ -4,3 +4,13 @@ export function setDrawerState(status) {
     status: status
   }
 }
+
+/*
+ * Tasks
+ */
+export function showNewTaskForm(show) {
+  return {
+    type: 'SHOW_TASK_FORM',
+    show: show
+  }
+}

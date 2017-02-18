@@ -3,9 +3,14 @@ import { connect } from 'react-redux'
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { List } from 'material-ui/List'
+import Paper from 'material-ui/Paper'
+import Dialog from 'material-ui/Dialog'
+import AddIcon from 'material-ui/svg-icons/content/add'
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation'
 import Task from './Task'
 import NewTask from './NewTask'
 import { createTask, setChecked, deleteTask, reorderTasks } from '../../actions/taskActions'
+import { showNewTaskForm } from '../../actions/applicationActions'
 
 var Tasks = (props) => {
   const tasks = props.tasks.map((task, i) => (
@@ -19,11 +24,46 @@ var Tasks = (props) => {
   ))
 
   return (
-    <List>
-      <NewTask onSubmit={props.createTask}/>
-      {tasks}
-    </List>
+    <div style={styles.container}>
+
+      <List style={styles.list}>
+        <Dialog
+          title="Task"
+          modal={false}
+          open={props.showNewForm}
+          contentStyle={styles.dialog}
+          onRequestClose={() => props.showNewTaskForm(false)}
+        >
+          <NewTask onSubmit={props.createTask}/>
+        </Dialog>
+
+        {tasks}
+      </List>
+
+      <Paper zDepth={1}>
+        <BottomNavigation>
+          <BottomNavigationItem
+            icon={<AddIcon />}
+            onTouchTap={() => props.showNewTaskForm(true)}
+          />
+        </BottomNavigation>
+      </Paper>
+    </div>
   )
+}
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '1 1 auto'
+  },
+  dialog: {
+    width: '100%'
+  },
+  list: {
+    flex: '1 1 auto'
+  }
 }
 
 Tasks.PropTypes = {
@@ -36,6 +76,7 @@ const mapStateToProps = state => {
 
   return {
     tasks: tasksOrder && tasksOrder.map(id => taskItems[id]) || [],
+    showNewForm: state.appProps.showNewTaskForm,
 
     canMoveTask: (dragIndex, hoverIndex) => {
       const dragTask = taskItems[tasksOrder[dragIndex]]
@@ -59,7 +100,8 @@ const mapDispatchToProps = dispatch => {
     createTask: (values) => dispatch(createTask(values.text)),
     setChecked: (taskId, isChecked) => dispatch(setChecked(taskId, isChecked)),
     deleteTask: (taskId) => dispatch(deleteTask(taskId)),
-    reorderTasks: (taskIds) => dispatch(reorderTasks(taskIds))
+    reorderTasks: (taskIds) => dispatch(reorderTasks(taskIds)),
+    showNewTaskForm: (shouldShow) => dispatch(showNewTaskForm(shouldShow))
   }
 }
 

@@ -27,6 +27,11 @@ const links = [
     title: 'Gitlab',
     text: 'Mitter',
     url: 'https://git.nomadly.in'
+  },
+  {
+    title: 'Blog',
+    text: 'Personal',
+    url: 'http://www.ganesshkumar.com'
   }
 ]
 
@@ -41,8 +46,8 @@ const QuickLinks = (props) => {
   )
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}> QuickLinks </div>
+    <div>
+      <div style={styles.header}> Quick Links </div>
       <div style={styles.links}>
         {links.map(link => renderLink(link))}
       </div>
@@ -51,13 +56,10 @@ const QuickLinks = (props) => {
 }
 
 const styles = {
-  container: {
-    padding: '10px'
-  },
   header: {
-    marginLeft: '10px',
-    fontSize: '1.3em',
-    color: Colors.blue500
+    backgroundColor: Colors.grey300,
+    color: Colors.grey800,
+    padding: '10px'
   },
   links: {
     display: 'flex',
@@ -69,7 +71,7 @@ const styles = {
     width: '100px'
   },
   linkText: {
-    color: Colors.grey800,
+    color: Colors.black,
     textDecoration: 'none'
   },
   title: {

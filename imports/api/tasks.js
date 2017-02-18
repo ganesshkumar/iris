@@ -80,12 +80,16 @@ Meteor.methods({
     const userId = this.userId;
     const task = Tasks.findOne(taskId);
     if (task.owner !== userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error('not-authorized')
     }
 
-    Tasks.update(taskId, { $set: { active: false }});
+    Tasks.update(taskId, { $set: { active: false }}, (error, count, result) => {
+      if (!error) {
+        TaskOrder.update({owner: userId}, { $pull: { tasksOrder: taskId }})
+      }
+    })
   },
-  /*
+
   'tasks.update'(task) {
     // Todo: Add check here
     if (task.owner !== this.userId) {
@@ -94,7 +98,7 @@ Meteor.methods({
 
     Tasks.update(task._id, task);
   },
-  */
+  
   'tasks.setOrder'(userId, taskIds) {
     check(userId, String)
     check(taskIds, [String])

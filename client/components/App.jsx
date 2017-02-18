@@ -71,6 +71,8 @@ class App extends Component {
 
 const styles = {
   container: {
+    display: 'flex',
+    flexDirection: 'column',
     height: '100%'
   },
   title: {

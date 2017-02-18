@@ -15,14 +15,19 @@ const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) 
 
 const NewTask = (props) => (
   <form onSubmit={props.handleSubmit} style={styles.form}>
-    <Field type="text" name="text" component={renderTextField} fullWidth={true} label="New Task" autoComplete="off" />
+    <Field type="text" 
+      name="text"
+      component={renderTextField}
+      fullWidth={true}
+      label="New Task"
+      autoComplete="off" autoFocus />
     <RaisedButton type="submit" style={styles.hidden} label={"Create"} />
   </form>
 )
 
 const styles = {
   form: {
-    padding: '20px'
+
   },
   hidden: {
     display: 'none'

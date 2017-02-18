@@ -1,5 +1,6 @@
 import { reset } from 'redux-form';
 import { throwError } from './errorActions'
+import { showNewTaskForm } from './applicationActions'
 
 export function createTask(text) {
   return dispatch => {
@@ -7,6 +8,7 @@ export function createTask(text) {
       Meteor.call('tasks.create', text, (error, result) =>
         error ? reject(error) : resolve())
     })
+    .then(() => dispatch(showNewTaskForm(false)))
     .then(() => dispatch(reset('task')))
     .catch(error => dispatch(throwError(error)))
   }
